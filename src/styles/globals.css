@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Krona+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+.upload-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.upload-box {
+  min-height: 130px;
+  display: grid;
+  align-content: center;
+  gap: 0.9rem;
+  padding: 1rem;
+  text-align: center;
+  border: 1px dashed rgba(34, 212, 253, 0.35);
+  border-radius: var(--radius-md);
+  background: rgba(34, 212, 253, 0.03);
+}
+
+.upload-box span {
+  font-weight: 700;
+}
+
+.upload-box input {
+  width: 100%;
+}
+
+.form-inline-note {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mini-info {
+  display: grid;
+  gap: 0.5rem;
+  color: rgba(246, 246, 246, 0.78);
+}
+
+@media (min-width: 992px) {
+  .dashboard-grid > :nth-child(1) {
+    grid-column: span 8;
+  }
+
+  .dashboard-grid > :nth-child(2) {
+    grid-column: span 4;
+  }
+
+  .dashboard-grid > :nth-child(3) {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header__actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header__userbox {
+    width: 100%;
+  }
+
+  .auth-card,
+  .card {
+    padding: 1.15rem;
+  }
+}

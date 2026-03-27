@@ -514,3 +514,19 @@ img {
   margin-top: 0.4rem;
   color: var(--color-terciario);
 }
+
+.preview-box__fallback {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  place-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  color: rgba(246, 246, 246, 0.72);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+}
+
+.preview-box__fallback small {
+  display: block;
+  margin-top: 0.5rem;
+  color: rgba(246, 246, 246, 0.55);
+}

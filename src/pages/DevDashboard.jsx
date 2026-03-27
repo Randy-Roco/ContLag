@@ -9,20 +9,10 @@ const INITIAL_FORM = {
   rasterTif: null,
   rasterKmz: null,
   rasterJpg: null,
-  contorno: null
+  vectorShpZip: null,
+  vectorGeojson: null,
+  vectorKmz: null
 };
-
-function getContornoTipo(file) {
-  if (!file) return '';
-
-  const name = file.name.toLowerCase();
-
-  if (name.endsWith('.zip')) return 'shp';
-  if (name.endsWith('.geojson')) return 'geojson';
-  if (name.endsWith('.kmz')) return 'kmz';
-
-  return 'desconocido';
-}
 
 export default function DevDashboard() {
   const [form, setForm] = useState(INITIAL_FORM);
@@ -78,7 +68,7 @@ export default function DevDashboard() {
     }
 
     if (!form.rasterTif) {
-      return 'Debes cargar el raster TIF de 4 bandas.';
+      return 'Debes cargar el raster TIF.';
     }
 
     if (!form.rasterKmz) {
@@ -86,16 +76,19 @@ export default function DevDashboard() {
     }
 
     if (!form.rasterJpg) {
-      return 'Debes cargar el JPG de vista previa.';
+      return 'Debes cargar el raster JPG.';
     }
 
-    if (!form.contorno) {
-      return 'Debes cargar el contorno vectorial.';
+    if (!form.vectorShpZip) {
+      return 'Debes cargar el contorno SHP en ZIP.';
     }
 
-    const contornoTipo = getContornoTipo(form.contorno);
-    if (contornoTipo === 'desconocido') {
-      return 'El contorno debe ser ZIP (shapefile), GEOJSON o KMZ.';
+    if (!form.vectorGeojson) {
+      return 'Debes cargar el contorno GeoJSON.';
+    }
+
+    if (!form.vectorKmz) {
+      return 'Debes cargar el contorno KMZ.';
     }
 
     return '';
@@ -111,8 +104,6 @@ export default function DevDashboard() {
       setError(validationError);
       return;
     }
-
-    const contornoTipo = getContornoTipo(form.contorno);
 
     const newPublication = {
       titulo: form.titulo.trim(),
@@ -133,10 +124,19 @@ export default function DevDashboard() {
           url: URL.createObjectURL(form.rasterJpg)
         }
       },
-      contorno: {
-        tipo: contornoTipo,
-        nombre: form.contorno.name,
-        url: URL.createObjectURL(form.contorno)
+      vector: {
+        shpZip: {
+          nombre: form.vectorShpZip.name,
+          url: URL.createObjectURL(form.vectorShpZip)
+        },
+        geojson: {
+          nombre: form.vectorGeojson.name,
+          url: URL.createObjectURL(form.vectorGeojson)
+        },
+        kmz: {
+          nombre: form.vectorKmz.name,
+          url: URL.createObjectURL(form.vectorKmz)
+        }
       }
     };
 
@@ -148,7 +148,7 @@ export default function DevDashboard() {
     }
 
     setPublications(getAllPublications());
-    setMessage('Publicación guardada correctamente. Ahora el cliente verá esta última versión.');
+    setMessage('Publicación guardada correctamente. El cliente ya puede descargar raster y vector en todos los formatos cargados.');
     resetForm();
   };
 
@@ -160,8 +160,7 @@ export default function DevDashboard() {
         <section className="card">
           <h2 className="section-title">Nueva publicación</h2>
           <p className="section-text">
-            Carga los archivos oficiales del proyecto. Esta publicación quedará
-            marcada automáticamente como la última visible para el cliente.
+            Carga raster y contornos vectoriales completos para que el cliente visualice la última publicación y descargue los archivos.
           </p>
 
           <form className="upload-form" onSubmit={handleSubmit}>
@@ -172,7 +171,7 @@ export default function DevDashboard() {
                 name="titulo"
                 value={form.titulo}
                 onChange={handleChange}
-                placeholder="Ej: Laguna MEL - 2026-03-27"
+                placeholder="Ej: 2025-10-06 Laguna MEL"
               />
             </label>
 
@@ -183,7 +182,7 @@ export default function DevDashboard() {
                 name="descripcion"
                 value={form.descripcion}
                 onChange={handleChange}
-                placeholder="Observaciones de la publicación"
+                placeholder="Ej: Actualización laguna MEL correspondiente a la fecha..."
               />
             </label>
 
@@ -197,9 +196,10 @@ export default function DevDashboard() {
               />
             </label>
 
+            <h3 className="subsection-title">Raster</h3>
             <div className="upload-grid">
               <label className="upload-box">
-                <span>Raster TIF 4 bandas</span>
+                <span>Raster TIF</span>
                 <input
                   type="file"
                   name="rasterTif"
@@ -221,7 +221,7 @@ export default function DevDashboard() {
               </label>
 
               <label className="upload-box">
-                <span>Preview JPG</span>
+                <span>Raster JPG</span>
                 <input
                   type="file"
                   name="rasterJpg"
@@ -230,16 +230,41 @@ export default function DevDashboard() {
                 />
                 <small>{form.rasterJpg ? form.rasterJpg.name : 'Sin archivo seleccionado'}</small>
               </label>
+            </div>
 
+            <h3 className="subsection-title">Contorno vectorial</h3>
+            <div className="upload-grid">
               <label className="upload-box">
-                <span>Contorno vectorial</span>
+                <span>SHP en ZIP</span>
                 <input
                   type="file"
-                  name="contorno"
-                  accept=".zip,.geojson,.kmz"
+                  name="vectorShpZip"
+                  accept=".zip"
                   onChange={handleFileChange}
                 />
-                <small>{form.contorno ? form.contorno.name : 'Sin archivo seleccionado'}</small>
+                <small>{form.vectorShpZip ? form.vectorShpZip.name : 'Sin archivo seleccionado'}</small>
+              </label>
+
+              <label className="upload-box">
+                <span>GeoJSON</span>
+                <input
+                  type="file"
+                  name="vectorGeojson"
+                  accept=".geojson,.json"
+                  onChange={handleFileChange}
+                />
+                <small>{form.vectorGeojson ? form.vectorGeojson.name : 'Sin archivo seleccionado'}</small>
+              </label>
+
+              <label className="upload-box">
+                <span>KMZ vectorial</span>
+                <input
+                  type="file"
+                  name="vectorKmz"
+                  accept=".kmz"
+                  onChange={handleFileChange}
+                />
+                <small>{form.vectorKmz ? form.vectorKmz.name : 'Sin archivo seleccionado'}</small>
               </label>
             </div>
 
@@ -248,7 +273,7 @@ export default function DevDashboard() {
                 EPSG fijo de trabajo: <strong>32719</strong>
               </span>
               <span>
-                Formatos vectoriales permitidos: <strong>ZIP / GEOJSON / KMZ</strong>
+                Tranque Minera Escondida MEL
               </span>
             </div>
 
@@ -266,12 +291,11 @@ export default function DevDashboard() {
 
           {ultimaPublicacion ? (
             <div className="mini-info">
-              <p>
-                <strong>{ultimaPublicacion.titulo}</strong>
-              </p>
+              <p><strong>{ultimaPublicacion.titulo}</strong></p>
               <p>{ultimaPublicacion.fecha}</p>
               <p>{ultimaPublicacion.epsg}</p>
-              <p>Contorno: {ultimaPublicacion.contorno?.tipo}</p>
+              <p>Raster: TIF / KMZ / JPG</p>
+              <p>Vector: SHP ZIP / GeoJSON / KMZ</p>
             </div>
           ) : (
             <p className="section-text">Aún no hay publicaciones guardadas.</p>
@@ -293,7 +317,8 @@ export default function DevDashboard() {
                   </div>
                   <p>{item.fecha}</p>
                   <p>{item.epsg}</p>
-                  <p>Contorno: {item.contorno?.tipo}</p>
+                  <p>Raster: TIF / KMZ / JPG</p>
+                  <p>Vector: SHP ZIP / GeoJSON / KMZ</p>
                 </article>
               ))}
             </div>

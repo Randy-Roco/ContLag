@@ -35,7 +35,7 @@ export default function ClientDashboard() {
           />
 
           <RasterFilesCard raster={publication.raster} />
-          <VectorFilesCard contorno={publication.contorno} />
+          <VectorFilesCard vector={publication.vector} />
         </section>
       )}
     </main>

@@ -15,8 +15,12 @@ export default function PublicationCard({ publication }) {
           <span className="meta-item__value">{publication.fecha}</span>
         </div>
         <div className="meta-item">
-          <span className="meta-item__label">Contorno</span>
-          <span className="meta-item__value">{publication.contorno.tipo}</span>
+          <span className="meta-item__label">Raster</span>
+          <span className="meta-item__value">TIF / KMZ / JPG</span>
+        </div>
+        <div className="meta-item">
+          <span className="meta-item__label">Vector</span>
+          <span className="meta-item__value">SHP ZIP / GeoJSON / KMZ</span>
         </div>
       </div>
     </section>

@@ -507,3 +507,10 @@ img {
     grid-column: span 12;
   }
 }
+
+.subsection-title {
+  font-family: var(--fuente-krona);
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
+  color: var(--color-terciario);
+}

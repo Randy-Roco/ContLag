@@ -473,3 +473,37 @@ img {
     padding: 1.15rem;
   }
 }
+
+.map-viewer {
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.map-viewer__map {
+  width: 100%;
+  height: 420px;
+  background: #111;
+}
+
+.leaflet-container {
+  font-family: var(--fuente-montserrat);
+}
+
+@media (min-width: 992px) {
+  .dashboard-grid > :nth-child(1) {
+    grid-column: span 8;
+  }
+
+  .dashboard-grid > :nth-child(2) {
+    grid-column: span 4;
+  }
+
+  .dashboard-grid > :nth-child(3) {
+    grid-column: span 12;
+  }
+
+  .dashboard-grid > :nth-child(4) {
+    grid-column: span 12;
+  }
+}

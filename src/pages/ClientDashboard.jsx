@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import PublicationCard from '../components/PublicationCard';
 import RasterFilesCard from '../components/RasterFilesCard';
 import VectorFilesCard from '../components/VectorFilesCard';
+import MapViewer from '../components/MapViewer';
 import { getLastPublication } from '../data/publicationStorage';
 
 export default function ClientDashboard() {
@@ -27,6 +28,12 @@ export default function ClientDashboard() {
       ) : (
         <section className="dashboard-grid">
           <PublicationCard publication={publication} />
+
+          <MapViewer
+            rasterUrl={publication?.raster?.jpg?.url || null}
+            geojsonData={null}
+          />
+
           <RasterFilesCard raster={publication.raster} />
           <VectorFilesCard contorno={publication.contorno} />
         </section>

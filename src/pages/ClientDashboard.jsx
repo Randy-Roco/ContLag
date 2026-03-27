@@ -1,19 +1,36 @@
+import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import PublicationCard from '../components/PublicationCard';
 import RasterFilesCard from '../components/RasterFilesCard';
 import VectorFilesCard from '../components/VectorFilesCard';
-import { mockPublication } from '../data/mockPublication';
+import { getLastPublication } from '../data/publicationStorage';
 
 export default function ClientDashboard() {
+  const [publication, setPublication] = useState(null);
+
+  useEffect(() => {
+    const ultima = getLastPublication();
+    setPublication(ultima);
+  }, []);
+
   return (
     <main className="dashboard-shell">
       <Header title="Panel Cliente" />
 
-      <section className="dashboard-grid">
-        <PublicationCard publication={mockPublication} />
-        <RasterFilesCard raster={mockPublication.raster} />
-        <VectorFilesCard contorno={mockPublication.contorno} />
-      </section>
+      {!publication ? (
+        <section className="card">
+          <h2 className="section-title">Sin publicaciones</h2>
+          <p className="section-text">
+            Aún no hay publicaciones disponibles. Espera a que el desarrollador cargue una.
+          </p>
+        </section>
+      ) : (
+        <section className="dashboard-grid">
+          <PublicationCard publication={publication} />
+          <RasterFilesCard raster={publication.raster} />
+          <VectorFilesCard contorno={publication.contorno} />
+        </section>
+      )}
     </main>
   );
 }
